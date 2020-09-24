@@ -1,0 +1,32 @@
+---
+- name: Create directory - Subscription Manager
+  file:
+    path: /usr/share/convert2rhel/subscription-manager/
+    state: directory
+
+- name: Create directory - RedHat Release
+  file:
+    path: /redhat-release/Server/
+    state: directory
+
+- name: Copy over subscription rpms
+  copy:
+    src: "{{ item }}"
+    dest: /usr/share/convert2rhel/subscription-manager
+    owner: root
+    mode: '644'
+  with_fileglob:
+     - "{{ role_path }}/files/*"
+
+- name: Copy over redhat-release rpms
+  copy:
+    src: redhat-release-server-7.7-10.el7.x86_64.rpm
+    dest: /usr/share/convert2rhel/redhat-release/Server
+    owner: root
+    mode: '644'
+
+- name: Download Satellite Katello rpms
+  get_url:
+    url: https://satellite.ews.int/pub/Katello-ca-consumer-latest.noarch.rpm
+    dest: /usr/share/convert2rhel/subscription-Manager
+    mode: '644'

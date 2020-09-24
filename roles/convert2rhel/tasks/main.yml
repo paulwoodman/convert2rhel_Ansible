@@ -1,0 +1,13 @@
+---
+- name: Install convert2rhel
+  package:
+    name: convert2rhel
+    state: present
+
+- name: excute the conversion
+  shell: convert2rhel -k {{ activation_key }} -o {{ sat_org }} -v Server -a --no-rpm-va -y
+
+- name: wait for the conversion tool to complete
+  wait_for:
+    path: /var/log/convert2rhel/convert2rhel.log
+    search_regex: restart

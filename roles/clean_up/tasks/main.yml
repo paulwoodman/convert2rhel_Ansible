@@ -1,0 +1,33 @@
+---
+- name: checking to see if RHEL
+  shell: rpm -qa redhat-release-server* --queryformat '%{vendor}'
+  register: vendor_shell_output
+  args:
+    warn: false
+
+- name: Reboot the server if conversion is successful
+  shell: sleep 2 && shutdown -r now "Ansible triggered reboot for convert2rhel"
+  async: 1
+  poll: 0
+  ignore_errors: true
+  when: '"Red Hat, Inc" in vendor_shell_output.stdout'
+
+- name: Checking for connectivity after Reboot
+  wait_for_connection:
+    delay: 40
+    timeout: 300
+
+- name: Delete extended support pem file
+  file:
+    path: /etc/pki/product/70.pem
+    state: absent
+
+- name: Remove the convert2rhel package
+  package:
+     name: convert2rhel
+     state: absent
+
+- name: Add python3
+  package:
+    name: python3
+    state: latest

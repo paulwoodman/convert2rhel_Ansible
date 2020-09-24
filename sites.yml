@@ -1,0 +1,19 @@
+---
+- name: Convert2RHEL
+  strategy: free
+  hosts: all
+  become: yes
+  gather_facts: false
+  tasks:
+
+    - name: Preparing server for conversion
+      import_role:
+       name: pre_flight
+
+    - name: Install and run the Convert2RHEL tool
+      import_role:
+        name: Convert2RHEL
+
+    - name: Verify conversion and reboot
+      import_role:
+        name: clean_up
