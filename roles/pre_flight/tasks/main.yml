@@ -27,6 +27,6 @@
 
 - name: Download Satellite Katello rpms
   get_url:
-    url: https://satellite.ews.int/pub/Katello-ca-consumer-latest.noarch.rpm
+    url: https://satellite.example.com/pub/Katello-ca-consumer-latest.noarch.rpm
     dest: /usr/share/convert2rhel/subscription-Manager
     mode: '644'
