@@ -26,8 +26,3 @@
   package:
      name: convert2rhel
      state: absent
-
-- name: Add python3
-  package:
-    name: python3
-    state: latest
