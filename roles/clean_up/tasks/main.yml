@@ -17,11 +17,6 @@
     delay: 40
     timeout: 300
 
-- name: Delete extended support pem file
-  file:
-    path: /etc/pki/product/70.pem
-    state: absent
-
 - name: Remove the convert2rhel package
   package:
      name: convert2rhel
